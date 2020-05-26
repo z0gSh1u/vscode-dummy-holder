@@ -1,27 +1,71 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
+/* eslint-disable curly */
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
+/**
+ * vscode-dummy-holder
+ * by z0gSh1u @ 2020-05
+ * https://github.com/z0gSh1u/vscode-dummy-holder
+ */
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "vscode-dummy-holder" is now active!');
+import * as vscode from 'vscode'
+import { generateImage, generateParagraph, copy } from './placeholder'
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('vscode-dummy-holder.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from vscode-dummy-holder!');
-	});
-
-	context.subscriptions.push(disposable);
+/**
+ * Insert text to current document.
+ */
+function insertToDocument(text: string) {
+  let textEditor = vscode.window.activeTextEditor
+  if (!textEditor)
+    vscode.window.showErrorMessage('[vscode-dummy-holder] ' + 'No active text editor.')
+  let edits = []
+  for (let selection of textEditor.selections)
+    edits.push(vscode.TextEdit.insert(selection.active, text))
+  let workspaceEdit = new vscode.WorkspaceEdit()
+  workspaceEdit.set(textEditor.document.uri, edits)
+  vscode.workspace.applyEdit(workspaceEdit).then(
+    () => {},
+    err => {
+      vscode.window.showErrorMessage('[vscode-dummy-holder] ' + err)
+    }
+  )
 }
 
-// this method is called when your extension is deactivated
+export function activate(context: vscode.ExtensionContext) {
+  // register generate image command
+  let generateImageCommand = vscode.commands.registerCommand(
+    'vscode-dummy-holder.generateImage',
+    () => {
+      vscode.window.showInputBox({ placeHolder: 'Enter your command...' }).then(command => {
+        try {
+          const url = generateImage(command)
+          insertToDocument(url)
+          const config =
+            vscode.workspace.getConfiguration('vscode-dummy-holder').get('copy') || false
+          config && copy(url)
+        } catch (e) {
+          vscode.window.showErrorMessage('[vscode-dummy-holder] ' + e)
+        }
+      })
+    }
+  )
+  context.subscriptions.push(generateImageCommand)
+  // register generate paragraph command
+  let generateParagraphCommand = vscode.commands.registerCommand(
+    'vscode-dummy-holder.generateParagraph',
+    () => {
+      vscode.window.showInputBox({ placeHolder: 'Enter your command...' }).then(command => {
+        try {
+          let paragraph = generateParagraph(command)
+          insertToDocument(paragraph)
+          const config =
+            vscode.workspace.getConfiguration('vscode-dummy-holder').get('copy') || false
+          config && copy(paragraph)
+        } catch (e) {
+          vscode.window.showErrorMessage('[vscode-dummy-holder] ' + e)
+        }
+      })
+    }
+  )
+  context.subscriptions.push(generateParagraphCommand)
+}
+
 export function deactivate() {}

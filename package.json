@@ -1,51 +1,81 @@
 {
-	"name": "vscode-dummy-holder",
-	"displayName": "vscode-dummy-holder",
-	"description": "Dummy placeholder image and paragraph generator for frontend developer.",
-	"version": "0.0.1",
-	"engines": {
-		"vscode": "^1.45.0"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"onCommand:vscode-dummy-holder.helloWorld"
-	],
-	"main": "./out/extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "vscode-dummy-holder.helloWorld",
-				"title": "Hello World"
-			}
-		]
-	},
-	"scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
-		"lint": "eslint src --ext ts",
-		"watch": "tsc -watch -p ./",
-		"pretest": "npm run compile && npm run lint",
-		"test": "node ./out/test/runTest.js"
-	},
-	"devDependencies": {
-		"@types/glob": "^7.1.1",
-		"@types/mocha": "^7.0.2",
-		"@types/node": "^13.11.0",
-		"@types/vscode": "^1.45.0",
-		"@typescript-eslint/eslint-plugin": "^2.30.0",
-		"@typescript-eslint/parser": "^2.30.0",
-		"cz-conventional-changelog": "^3.2.0",
-		"eslint": "^6.8.0",
-		"glob": "^7.1.6",
-		"mocha": "^7.1.2",
-		"typescript": "^3.8.3",
-		"vscode-test": "^1.3.0"
-	},
-	"config": {
-		"commitizen": {
-			"path": "./node_modules/cz-conventional-changelog"
-		}
-	}
+  "name": "vscode-dummy-holder",
+  "displayName": "vscode-dummy-holder",
+  "description": "Dummy placeholder image and paragraph generator for frontend developer.",
+  "version": "1.0.0",
+  "keywords": [
+    "placeholder",
+    "frontend",
+    "generate",
+    "dummy",
+    "image"
+  ],
+  "engines": {
+    "vscode": "^1.0.0"
+  },
+  "license": "SEE LICENSE IN LICENSE",
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "vscode-dummy-holder.generateImage",
+        "title": "Generate Placeholder Image",
+        "category": "vscode-dummy-holder"
+      },
+      {
+        "command": "vscode-dummy-holder.generateParagraph",
+        "title": "Generate Placeholder Paragraph",
+        "category": "vscode-dummy-holder"
+      }
+    ],
+    "configuration": {
+      "title": "vscode-dummy-holder",
+      "properties": {
+        "vscode-dummy-holder.copy": {
+          "type": "boolean",
+          "default": false,
+          "description": "Copy the generated content (URL or paragraph) to the clipboard."
+        }
+      }
+    }
+  },
+  "main": "./out/extension.js",
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "lint": "eslint src --ext ts",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "test": "mocha -r ts-node/register ./test/*.test.ts",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0" 
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.1",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^13.11.0",
+    "@types/vscode": "^1.45.0",
+    "@typescript-eslint/eslint-plugin": "^2.30.0",
+    "@typescript-eslint/parser": "^2.30.0",
+    "cz-conventional-changelog": "^3.2.0",
+    "eslint": "^6.8.0",
+    "glob": "^7.1.6",
+    "mocha": "^7.1.2",
+    "ts-node": "^8.10.1",
+    "typescript": "^3.8.3",
+    "vscode-test": "^1.3.0",
+    "@types/copy-paste": "^1.1.30"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "copy-paste": "^1.3.0"
+  }
 }

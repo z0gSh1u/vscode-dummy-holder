@@ -1,9 +1,10 @@
-# Change Log
+# 1.0.0 (2020-05-26)
 
-All notable changes to the "vscode-dummy-holder" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+### Features
 
-## [Unreleased]
+* initial commit ([27ff58d](https://github.com/z0gSh1u/vscode-dummy-holder/commit/27ff58d4f9ddab0972e78219652b8612d969f186))
+* **whole project:** finish all features and ready for publish ([aad19a7](https://github.com/z0gSh1u/vscode-dummy-holder/commit/aad19a73c72b6563536c284b7c8a74e14f6b35c3))
 
-- Initial release
+
+
